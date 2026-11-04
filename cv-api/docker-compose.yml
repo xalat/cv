@@ -1,0 +1,51 @@
+services:
+  php:
+    image: php:8.4.27-cli
+    build:
+      context: .
+      dockerfile: dockerfile
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: php -S 0.0.0.0:8000 -t public
+    environment:
+      APP_ENV: dev
+      DATABASE_URL: ${DATABASE_URL}
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - app_network
+    ports:
+      - "8000:8000"
+###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-16}-alpine
+    environment:
+        POSTGRES_DB: ${POSTGRES_DB}
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD doit être défini}
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "cv", "-U", "cv_user"]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    networks:
+      app_network:
+        aliases:
+          - database
+    volumes:
+      - database_data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+###< doctrine/doctrine-bundle ###
+
+volumes:
+###> doctrine/doctrine-bundle ###
+  database_data:
+###< doctrine/doctrine-bundle ###
+
+networks:
+  app_network:

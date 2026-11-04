@@ -1,0 +1,36 @@
+security:
+    password_hashers:
+        App\Entity\User: 'auto'
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    firewalls:
+        login:
+            pattern: ^/api/login
+            stateless: true
+            json_login:
+                check_path: /api/login
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        api:
+            pattern: ^/api
+            stateless: true
+            jwt: ~
+
+    access_control:
+        - { path: '^/api/login$', roles: PUBLIC_ACCESS }
+        - { path: '^/api/cvs(?:/\d+)?(?:\.[a-z]+)?$', roles: PUBLIC_ACCESS, methods: [GET, HEAD] }
+        - { path: '^/api/cvs(?:/\d+)?(?:\.[a-z]+)?$', roles: ROLE_ADMIN, methods: [POST, PUT, PATCH, DELETE] }
+        - { path: '^/api/graphql$', roles: PUBLIC_ACCESS, methods: [GET, POST] }
+        - { path: '^/api/graphql/graphiql$', roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: '^/api/?$', roles: PUBLIC_ACCESS, methods: [GET, HEAD] }
+        - { path: '^/api/docs(?:\.[a-z]+)?$', roles: PUBLIC_ACCESS, methods: [GET, HEAD] }
+        - { path: '^/api/contexts/Cv$', roles: PUBLIC_ACCESS, methods: [GET, HEAD] }
+        - { path: ^/api, roles: ROLE_USER }

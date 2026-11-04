@@ -1,0 +1,65 @@
+{% macro value(value, labels) %}
+    {% if value is iterable %}
+        {% if value is sequence %}
+            <ul>{% for item in value %}<li>{{ _self.value(item, labels) }}</li>{% endfor %}</ul>
+        {% else %}
+            {% if value.entreprise is defined %}<strong>{{ value.entreprise }}</strong>{% endif %}
+            <dl>{% for key, item in value %}{% if key != 'entreprise' %}<dt>{{ labels[key] ?? (key|capitalize) }}</dt><dd>{{ _self.value(item, labels) }}</dd>{% endif %}{% endfor %}</dl>
+        {% endif %}
+    {% else %}
+        {{ value }}
+    {% endif %}
+{% endmacro %}
+{% set t = cv.locale == 'en' ? {
+    'skills': 'Skills', 'languages': 'Languages', 'education': 'Education',
+    'experiences': 'Experience', 'links': 'Professional links', 'published': 'Published on',
+    'fields': {
+        'entreprise': 'Company', 'company': 'Company', 'poste': 'Role', 'title': 'Role',
+        'anneeDebut': 'Start', 'startDate': 'Start', 'anneeFin': 'End', 'endDate': 'End',
+        'contexte': 'Context', 'context': 'Context', 'missions': 'Responsibilities',
+        'description': 'Description', 'technologies': 'Technologies', 'stack': 'Technologies'
+    }
+} : {
+    'skills': 'Compétences', 'languages': 'Langues', 'education': 'Formations',
+    'experiences': 'Expériences', 'links': 'Liens professionnels', 'published': 'Publié le',
+    'fields': {'anneeDebut': 'Début', 'anneeFin': 'Fin'}
+} %}
+<!DOCTYPE html>
+<html lang="{{ cv.locale }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ cv.name }} — {{ cv.title }}</title>
+    <style>
+        body { max-width: 56rem; margin: auto; padding: 1.5rem; font-family: system-ui, sans-serif; line-height: 1.6; overflow-wrap: anywhere; }
+        h1, h2 { line-height: 1.2; }
+        dt { font-weight: bold; }
+        dd { margin-bottom: .75rem; }
+    </style>
+</head>
+<body>
+<main>
+    <header>
+        <h1>{{ cv.name }}</h1>
+        <p>{{ cv.title }}</p>
+        {% if cv.location %}<p>{{ cv.location }}</p>{% endif %}
+    </header>
+    {% for heading, items in {
+        (t.skills): cv.skills,
+        (t.languages): cv.languages,
+        (t.education): cv.education,
+        (t.experiences): cv.experiences
+    } %}
+        {% if items %}<section><h2>{{ heading }}</h2>{{ _self.value(items, t.fields) }}</section>{% endif %}
+    {% endfor %}
+    <nav aria-label="{{ t.links }}">
+        {% for label, url in {'GitHub': cv.github, 'LinkedIn': cv.linkedin, 'Portfolio': cv.portfolio} %}
+            {% if url and (url starts with 'https://' or url starts with 'http://') %}
+                <a href="{{ url }}" rel="noopener noreferrer">{{ label }}</a>
+            {% endif %}
+        {% endfor %}
+    </nav>
+    {% if cv.createdAt %}<p>{{ t.published }} <time datetime="{{ cv.createdAt|date('c') }}">{{ cv.createdAt|date(cv.locale == 'en' ? 'Y-m-d' : 'd/m/Y') }}</time></p>{% endif %}
+</main>
+</body>
+</html>

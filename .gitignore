@@ -1,0 +1,5 @@
+.idea/
+deploy.md
+.env.prod
+cv-front/dist/
+cv-front/node_modules/
