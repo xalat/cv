@@ -17,6 +17,17 @@ sans `locale` reste en francais ; une valeur non prise en charge est rejetee.
 L'accueil et les messages avant chargement du CV restent en francais, car aucun
 CV ne definit encore leur langue.
 
+## Contact
+
+La page `/contact` propose un formulaire (nom, e-mail, message) qui appelle
+`POST /api/contact`. Les liens sont accessibles depuis l'accueil et chaque CV,
+y compris sur mobile. L'envoi est synchrone : le bouton et les champs sont
+desactives pendant la transmission. Une erreur conserve la saisie, affiche
+les erreurs de champs ou du serveur et permet de reessayer ; seul un succes
+confirme par l'API vide le formulaire. Le destinataire et les identifiants SMTP
+ne figurent jamais dans le frontend. Configurer le backend selon son README.
+La page de contact reste en francais, comme l'accueil.
+
 ## Serveur local
 
 ```bash
@@ -45,4 +56,4 @@ npm run preview
 
 Le proxy est reserve au developpement. En production, configurer le serveur web
 pour transmettre `/api` et `/bundles/apiplatform` au backend Symfony et servir `dist/index.html` pour les
-routes du frontend, notamment `/cv/{id}`, afin de permettre les liens directs.
+routes du frontend, notamment `/cv/{id}` et `/contact`, afin de permettre les liens directs.

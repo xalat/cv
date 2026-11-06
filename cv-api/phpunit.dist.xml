@@ -9,6 +9,9 @@
         <server name="DATABASE_URL" value="sqlite:///:memory:" force="true"/>
         <server name="DEFAULT_URI" value="http://localhost" force="true"/>
         <server name="KERNEL_CLASS" value="App\Kernel" force="true"/>
+        <server name="MAILER_DSN" value="null://null" force="true"/>
+        <server name="CONTACT_FROM" value="site@example.com" force="true"/>
+        <server name="CONTACT_TO" value="recipient@example.com" force="true"/>
     </php>
     <testsuites>
         <testsuite name="API">

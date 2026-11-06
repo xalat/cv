@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { parseCv, type Cv } from './cv'
 import { messages, parseLocale, type Locale } from './i18n'
+import ContactPage from './ContactPage'
 import './App.css'
 
 type State = { status: 'loading' } | { status: 'error'; message: string } | { status: 'ready'; cv: Cv }
@@ -73,6 +74,7 @@ function CvPage({ id }: { id: string }) {
         <nav className="topbar" aria-label={t.mainNavigation}>
           <a className="signature" href="/"><span aria-hidden="true">{initials}</span> {t.allCvs}</a>
           <div className="actions">
+            <a className="contact-link" href="/contact">{t.contact}</a>
             <a href="#parcours">{t.career}</a>
             <button className="print-button" onClick={() => window.print()}>{t.print} <span aria-hidden="true">↗</span></button>
           </div>
@@ -122,6 +124,7 @@ function CvPage({ id }: { id: string }) {
         <footer>
           <span>{cv.name} · {t.curriculumVitae}</span>
           <nav className="footer-links" aria-label={t.resources}>
+            <a href="/contact">{t.contact}</a>
             <a href="/api/docs">{t.apiDocumentation}</a>
             <a href="#profil">{t.backToTop} ↑</a>
           </nav>
@@ -180,7 +183,10 @@ function HomePage() {
     <div className="page">
       <nav className="topbar" aria-label="Navigation principale">
         <a className="signature" href="/">Curriculum vitae</a>
-        <a href="/api/docs">Documentation de l’API</a>
+        <div className="actions">
+          <a className="contact-link" href="/contact">Contact</a>
+          <a href="/api/docs">Documentation de l’API</a>
+        </div>
       </nav>
       <main>
         <header className="hero">
@@ -207,7 +213,7 @@ function HomePage() {
             ))}</ul>)}
         </section>
       </main>
-      <footer><span>Curriculum vitae</span><a href="/api/docs">Documentation de l’API</a></footer>
+      <footer><span>Curriculum vitae</span><nav className="footer-links" aria-label="Ressources"><a href="/contact">Contact</a><a href="/api/docs">Documentation de l’API</a></nav></footer>
     </div>
   )
 }
@@ -215,6 +221,7 @@ function HomePage() {
 function App() {
   const path = window.location.pathname
   if (path === '/') return <HomePage />
+  if (path === '/contact' || path === '/contact/') return <ContactPage />
   const match = /^\/cv\/([1-9]\d*)\/?$/.exec(path)
   if (match) return <CvPage id={match[1]} />
   return <main className="status-panel"><h1>Page introuvable</h1><p><a href="/">Revenir à la liste des CV</a></p></main>

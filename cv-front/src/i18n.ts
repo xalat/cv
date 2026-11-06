@@ -12,6 +12,7 @@ const fr = {
   mainNavigation: 'Navigation principale',
   allCvs: 'Tous les CV',
   career: 'Parcours',
+  contact: 'Contact',
   print: 'Imprimer / PDF',
   expertise: 'Expertise & parcours professionnel',
   professionalLinks: 'Liens professionnels',
@@ -38,6 +39,7 @@ export const messages: Record<Locale, Record<keyof typeof fr, string>> = {
     mainNavigation: 'Main navigation',
     allCvs: 'All CVs',
     career: 'Experience',
+    contact: 'Contact',
     print: 'Print / PDF',
     expertise: 'Expertise & professional background',
     professionalLinks: 'Professional links',
@@ -53,6 +55,6 @@ export const messages: Record<Locale, Record<keyof typeof fr, string>> = {
     resources: 'Resources',
     apiDocumentation: 'API documentation',
     backToTop: 'Back to top',
-    consult: 'View CV',
+    consult: 'View resume',
   },
 }

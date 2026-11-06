@@ -25,6 +25,7 @@ security:
             jwt: ~
 
     access_control:
+        - { path: '^/api/contact$', roles: PUBLIC_ACCESS, methods: [POST] }
         - { path: '^/api/login$', roles: PUBLIC_ACCESS }
         - { path: '^/api/cvs(?:/\d+)?(?:\.[a-z]+)?$', roles: PUBLIC_ACCESS, methods: [GET, HEAD] }
         - { path: '^/api/cvs(?:/\d+)?(?:\.[a-z]+)?$', roles: ROLE_ADMIN, methods: [POST, PUT, PATCH, DELETE] }

@@ -51,6 +51,24 @@ footer { border-top: 1px solid #d5dad3; padding: 1.5rem 0 2rem; font-size: .75re
 .card-link { display: flex; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; margin-top: auto; font-size: .85rem; font-weight: 600; color: #285d4f; }
 .status-panel { max-width: 650px; margin: 15vh auto; padding: 2rem; }
 .status-panel h1 { font-size: 2.4rem; }
+.contact-section { max-width: 650px; padding: 2rem 0 3rem; }
+.contact-fields { border: 0; padding: 0; margin: 0; min-width: 0; }
+.contact-field { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1.4rem; }
+.contact-field label { font-weight: 600; font-size: .9rem; }
+.contact-field input, .contact-field textarea { width: 100%; border: 1px solid #aebeb1; border-radius: 5px; padding: .7rem .8rem; background: #fff; color: #23332f; font: inherit; }
+.contact-field textarea { resize: vertical; }
+.contact-field input:focus-visible, .contact-field textarea:focus-visible { outline: 3px solid #b75a32; outline-offset: 3px; }
+.contact-field [aria-invalid="true"] { border-color: #943a25; }
+.field-help { margin: 0; font-size: .8rem; color: #596961; }
+.field-error { margin: 0; color: #943a25; font-size: .85rem; }
+.contact-trap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.contact-submit { margin-top: 1.5rem; border: 0; border-radius: 5px; padding: .75rem 1.2rem; background: #285d4f; color: white; }
+.contact-submit:hover { background: #163e32; }
+.contact-fields:disabled { opacity: .7; }
+.contact-fields:disabled .contact-submit { cursor: wait; }
+.contact-feedback { margin-top: 1.5rem; padding: .8rem 1rem; border: 1px solid #285d4f; border-radius: 5px; }
+.contact-feedback p { margin: 0; }
+.contact-feedback.error { border-color: #943a25; color: #943a25; }
 @media (max-width: 900px) {
   .page { padding: 0 1.5rem; }
   .cv-layout { grid-template-columns: 210px minmax(0, 1fr); gap: 2rem; }
@@ -61,6 +79,8 @@ footer { border-top: 1px solid #d5dad3; padding: 1.5rem 0 2rem; font-size: .75re
   .topbar { min-height: 80px; }
   .signature { gap: .6rem; }
   .actions > a { display: none; }
+  .actions > .contact-link { display: inline; }
+  .actions { gap: .75rem; }
   .print-button { font-size: .75rem; padding: .45rem .6rem; }
   .hero { padding: 2.5rem 0; }
   .monogram { display: none; }
